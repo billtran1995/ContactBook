@@ -1,0 +1,20 @@
+{
+  "name": "ContactBook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/billtran1995/ContactBook.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/billtran1995/ContactBook/issues"
+  },
+  "homepage": "https://github.com/billtran1995/ContactBook#readme"
+}
