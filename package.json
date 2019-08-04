@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/billtran1995/ContactBook/issues"
   },
-  "homepage": "https://github.com/billtran1995/ContactBook#readme"
+  "homepage": "https://github.com/billtran1995/ContactBook#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.12.2"
+  },
+  "devDependencies": {}
 }

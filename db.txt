@@ -1,0 +1,45 @@
+Table PhoneNumbers:
+phoneNumberId: Int Not Null Primary Key
+number: Varchar(10) Not Null
+type: Varchar(20) Not Null
+contactId: Int Not Null Foreign Key
+
+Table Addresses:
+addressId: Int Not Null Primary Key
+street: Varchar(255) Not Null
+city: Varchar(50) Not Null
+state: Varchar(2)
+zip: Int
+country: Varchar(50) Not Null
+type: Varchar(20) Not Null
+contactId: Int Not Null Foreign Key
+
+Table Email:
+emailAddressId: Int Not Null Primary Key
+email: Varchar(100) Not Null
+type: Varchar(20) Not Null
+contactId: Int Not Null Foreign Key
+
+Table Contacts:
+contactId: Int Not Null Primary Key
+firstName: Varchar(100) Not Null
+middleName: Varchar(100)
+lastName: Varchar(100) Not Null
+nickName: Varchar(100)
+isFavorite: Varchar(1)
+pictureUrl: Varchar(100)
+accountId: Int Not Null Foreign Key
+
+Table Groups:
+groupId: Int Not Null Primary Key
+groupName: Varchar(50)
+
+Table GroupContactRel:
+id: Int Not Null Primary Key
+groupId: Int Not Null Foreign Key
+contactId: Int Not Null Foreign Key
+
+Table Accounts:
+accountId: Int Not Null Primary Key
+userName: Varchar(20) Not Null
+pictureUrl: Varchar(100)
