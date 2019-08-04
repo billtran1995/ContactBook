@@ -1,5 +1,5 @@
 const express = require("express");
-const { sequelize, Account, Contact } = require("./db");
+const { sequelize } = require("./db");
 const app = express();
 
 const port = process.env.PORT || 8000;
@@ -10,6 +10,9 @@ const initApp = async () => {
     console.log("Connected to Database");
 
     app.use(express.json());
+
+    app.use("/api/contacts", require("./routers/contacts"));
+    app.use("/api/accounts", require("./routers/accounts"));
 
     app.listen(port, () => console.log(`Server started at port ${port}`));
   } catch (err) {
