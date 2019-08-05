@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const { database, username, password, host, port, dbname } = require("../keys");
 const sequelize = new Sequelize(
-  `${database}://${username}:${password}@${host}:${port}/${dbname}`
+	`${database}://${username}:${password}@${host}:${port}/${dbname}`
 );
 
 // Test connection
@@ -18,22 +18,22 @@ const sequelize = new Sequelize(
 const Account = require("../models/account.model")(sequelize, Sequelize);
 const Contact = require("../models/contact.model")(sequelize, Sequelize);
 const PhoneNumber = require("../models/phoneNumber.model")(
-  sequelize,
-  Sequelize
+	sequelize,
+	Sequelize
 );
 const Address = require("../models/address.model")(sequelize, Sequelize);
 const Email = require("../models/email.model")(sequelize, Sequelize);
 
-Contact.belongsTo(Account);
-PhoneNumber.belongsTo(Contact);
-Address.belongsTo(Contact);
-Email.belongsTo(Contact);
+Account.hasMany(Contact);
+Contact.hasMany(PhoneNumber);
+Contact.hasMany(Address);
+Contact.hasMany(Email);
 
 module.exports = {
-  sequelize,
-  Account,
-  Contact,
-  PhoneNumber,
-  Address,
-  Email
+	sequelize,
+	Account,
+	Contact,
+	PhoneNumber,
+	Address,
+	Email
 };
