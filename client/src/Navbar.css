@@ -1,0 +1,41 @@
+.logo {
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.nav-bar {
+  background-color: #ff8a80;
+}
+
+.brand {
+  font-size: 5em;
+  text-align: center;
+  color: #64ffda;
+}
+
+.nav-link {
+  font-size: 1.5em;
+  color: white;
+}
+
+.nav-link.active {
+  background-color: #ff1744;
+}
+
+.nav-link:hover {
+  color: white;
+  background-color: #ef9a9a;
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 3em;
+    text-align: center;
+  }
+
+  .nav-link {
+    font-size: 1em;
+  }
+}
