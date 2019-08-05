@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 
+import initApis from "./api";
+import { createUser } from "./api/account";
+
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
@@ -33,7 +36,9 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
-        setUser(user);
+        const token = await auth0Client.getTokenSilently();
+        initApis(token);
+        createAccount(user.nickName, user.pciture);
       }
 
       setLoading(false);
@@ -41,6 +46,17 @@ export const Auth0Provider = ({
     initAuth0();
     // eslint-disable-next-line
   }, []);
+
+  const createAccount = async (userName, pictureUrl) => {
+    try {
+      const res = await createUser({ userName, pictureUrl });
+      if (res.status === 200) {
+        setUser(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);
@@ -52,17 +68,21 @@ export const Auth0Provider = ({
       setPopupOpen(false);
     }
     const user = await auth0Client.getUser();
-    setUser(user);
+    const token = await auth0Client.getTokenSilently();
     setIsAuthenticated(true);
+    initApis(token);
+    createAccount(user.nickName, user.pciture);
   };
 
   const handleRedirectCallback = async () => {
     setLoading(true);
     await auth0Client.handleRedirectCallback();
     const user = await auth0Client.getUser();
+    const token = await auth0Client.getTokenSilently();
     setLoading(false);
     setIsAuthenticated(true);
-    setUser(user);
+    initApis(token);
+    createAccount(user.nickName, user.pciture);
   };
   return (
     <Auth0Context.Provider
