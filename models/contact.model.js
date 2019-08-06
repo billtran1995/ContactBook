@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       lastName: { type: DataTypes.STRING(100), allowNull: false },
       nickName: { type: DataTypes.STRING(100) },
       isFavorite: { type: DataTypes.STRING(1) },
-      pictureUrl: { type: DataTypes.STRING(100) }
+      pictureUrl: { type: DataTypes.STRING }
     },
     {}
   );

@@ -1,109 +1,97 @@
 const express = require("express");
+const boom = require("@hapi/boom");
 const router = express.Router();
 
 const { Account, Contact, PhoneNumber, Email, Address } = require("../db");
 
 // Get accounts
 router.get("/", async (req, res) => {
-	try {
-		const result = await Account.findAll();
+  try {
+    const result = await Account.findAll();
 
-		if (!result) {
-			res.json({ msg: "No accounts found." });
-		} else {
-			res.json(result);
-		}
-	} catch (err) {
-		console.error(err);
-		res.status(500).send("Server error");
-	}
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    next(boom.internal("Unable to get accounts"));
+  }
 });
 
 // Get an account
-router.get("/:id", async (req, res) => {
-	try {
-		const result = await Account.findOne({ where: { id: req.params.id } });
+router.get("/:accountId", async (req, res) => {
+  const { accountId } = req.params;
+  try {
+    const result = await Account.findOne({ where: { id: contactId } });
 
-		if (!result) {
-			result.msg = "This account does not exist.";
-		}
-
-		res.json(result);
-	} catch (err) {
-		console.error(err);
-		res.status(500).send("Server error");
-	}
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    next(boom.internal("Unable to find account"));
+  }
 });
 
 // Create an account
 router.post("/create", async (req, res) => {
-	try {
-		const { userName, pictureUrl } = req.body;
+  try {
+    const { userName, pictureUrl } = req.body;
 
-		const [user] = await Account.findOrCreate({
-			where: { userName },
-			defaults: { pictureUrl }
-		});
+    const [user] = await Account.findOrCreate({
+      where: { userName },
+      defaults: { pictureUrl }
+    });
 
-		res.json(user);
-	} catch (err) {
-		console.error(err);
-		res.status(500).send("Server error");
-	}
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    next(boom.internal("Unable to create account"));
+  }
 });
 
 // Update account
-router.patch("/update/:id", async (req, res) => {
-	try {
-		const { userName, pictureUrl } = req.body;
+router.patch("/update/:accountId", async (req, res) => {
+  const { userName, pictureUrl } = req.body;
+  const { accountId } = req.params;
+  try {
+    await Account.update(
+      { userName, pictureUrl },
+      {
+        where: { id: accountId }
+      }
+    );
 
-		await Account.update(
-			{ userName, pictureUrl },
-			{
-				where: { id: req.params.id }
-			}
-		);
+    let result = await Account.findOne({ where: { id: accountId } });
 
-		let result = await Account.findOne({ where: { id: req.params.id } });
-
-		res.json(result);
-	} catch (err) {
-		console.error(err);
-		res.status(500).send("Server error");
-	}
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    next(boom.internal("Unable to update account"));
+  }
 });
 
 // Delete account
-router.delete("/delete/:id", async (req, res) => {
-	try {
-		let { contactId } = await Contact.findOne({
-			where: { accountId: req.params.id }
-		});
-		await PhoneNumber.destroy({
-			where: { contactId: req.params.id }
-		});
-		await Email.destroy({
-			where: { contactId: req.params.id }
-		});
-		await Address.destroy({
-			where: { accouncontactIdtId: req.params.id }
-		});
-		// ====> Add Group as well
+router.delete("/delete/:accountId", async (req, res) => {
+  const { accountId } = req.params;
 
-		await Contact.destroy({
-			where: { contactId: req.params.id }
-		});
-		await Account.destroy({
-			where: { accountId: req.params.id }
-		});
+  try {
+    const contacts = await Contact.findAll({ where: { accountId } });
 
-		res.json({
-			msg: "Account removed."
-		});
-	} catch (err) {
-		console.error(err);
-		res.status(500).send("Server error");
-	}
+    await Promise.all(
+      contacts.map(async ({ id }) => {
+        await PhoneNumber.destroy({ where: { contactId: id } });
+        await Address.destroy({ where: { contactId: id } });
+        await Email.destroy({ where: { contactId: id } });
+        await Contact.destroy({ where: { id } });
+      })
+    );
+
+    await Account.destroy({ where: { id: accountId } });
+
+    res.json({
+      msg: "Account and all its contacts are removed"
+    });
+  } catch (err) {
+    console.error(err);
+    next(boom.internal("Unable to remove account"));
+  }
 });
 
 module.exports = router;

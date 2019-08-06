@@ -36,9 +36,9 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
-        const token = await auth0Client.getTokenSilently();
+        const token = await auth0FromHook.getTokenSilently();
         initApis(token);
-        createAccount(user.nickName, user.pciture);
+        createAccount(user.nickname, user.picture);
       }
 
       setLoading(false);
@@ -82,7 +82,7 @@ export const Auth0Provider = ({
     setLoading(false);
     setIsAuthenticated(true);
     initApis(token);
-    createAccount(user.nickName, user.pciture);
+    createAccount(user.nickName, user.picture);
   };
   return (
     <Auth0Context.Provider
