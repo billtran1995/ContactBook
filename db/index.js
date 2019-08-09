@@ -24,10 +24,10 @@ const PhoneNumber = require("../models/phoneNumber.model")(
 const Address = require("../models/address.model")(sequelize, Sequelize);
 const Email = require("../models/email.model")(sequelize, Sequelize);
 
-Account.hasMany(Contact);
-Contact.hasMany(PhoneNumber);
-Contact.hasMany(Address);
-Contact.hasMany(Email);
+Account.hasMany(Contact, { onDelete: "cascade" });
+Contact.hasMany(PhoneNumber, { onDelete: "cascade" });
+Contact.hasMany(Address, { onDelete: "cascade" });
+Contact.hasMany(Email, { onDelete: "cascade" });
 
 module.exports = {
 	sequelize,
