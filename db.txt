@@ -1,6 +1,6 @@
 Table PhoneNumbers:
 phoneNumberId: Int Not Null Primary Key
-number: Varchar(10) Not Null
+number: Varchar(50) Not Null
 type: Varchar(20) Not Null
 contactId: Int Not Null Foreign Key
 
@@ -9,7 +9,7 @@ addressId: Int Not Null Primary Key
 street: Varchar(255) Not Null
 city: Varchar(50) Not Null
 state: Varchar(2)
-zip: Int
+zip: Varchar(10)
 country: Varchar(50) Not Null
 type: Varchar(20) Not Null
 contactId: Int Not Null Foreign Key
