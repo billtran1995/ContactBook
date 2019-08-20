@@ -4,7 +4,7 @@ const router = express.Router();
 const { Contact, PhoneNumber, Email, Address } = require("../db");
 
 // Get contacts
-router.get("/:accountId", async (req, res, next) => {
+router.get("/getContacts/:accountId", async (req, res, next) => {
   const { accountId } = req.params;
 
   try {
@@ -21,7 +21,7 @@ router.get("/:accountId", async (req, res, next) => {
 });
 
 // Get a contact
-router.get("/:contactId", async (req, res, next) => {
+router.get("/getContact/:contactId", async (req, res, next) => {
   const { contactId } = req.params;
 
   try {
@@ -44,10 +44,10 @@ router.get("/:contactId", async (req, res, next) => {
 // Create new contact
 router.post("/create", async (req, res, next) => {
   try {
-    let { contact, phoneNumbers, emails, addresses } = req.body;
+    let { contact, phoneNumbers, emails, addresses, accountId } = req.body;
     let result = {};
 
-    result.contact = await Contact.create(contact);
+    result.contact = await Contact.create({ ...contact, accountId });
 
     let newNumbers = phoneNumbers.map(phoneNumber => ({
       ...phoneNumber,
