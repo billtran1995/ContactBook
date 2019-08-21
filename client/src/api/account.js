@@ -12,5 +12,5 @@ export const initAccountApis = token => {
 };
 
 export const createUser = body => {
-  accountApis.post(`${ACCOUNT_URL}/create`, body);
+  return accountApis.post(`${ACCOUNT_URL}/create`, body);
 };
