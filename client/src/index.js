@@ -5,7 +5,7 @@ import * as serviceWorker from "./serviceWorker";
 import { Auth0Provider } from "./auth0-wrapper";
 import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
-import reducer from "./reducers/contactList.reducer";
+import reducer from "./reducers";
 import callApiAndDispatch from "./middleware/callApiAndDispatch";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -33,7 +33,7 @@ ReactDOM.render(
     <Auth0Provider
       domain={process.env.REACT_APP_AUTH_DOMAIN}
       client_id={process.env.REACT_APP_AUTH_CLIENT_ID}
-      redirect_uri={window.location.origin}
+      redirect_uri={`${window.location.origin}/contacts`}
       onRedirectCallback={onRedirectCallback}
     >
       <App />

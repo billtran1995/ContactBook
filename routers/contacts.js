@@ -10,7 +10,8 @@ router.get("/getContacts/:accountId", async (req, res, next) => {
   try {
     const result = await Contact.findAll({
       include: [{ model: PhoneNumber }, { model: Email }, { model: Address }],
-      where: { accountId }
+      where: { accountId },
+      order: [["firstName", "ASC"]]
     });
 
     res.json(result);
