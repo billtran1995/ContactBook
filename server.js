@@ -13,6 +13,9 @@ const initApp = async () => {
 
 		app.use("/api/contacts", require("./routers/contacts"));
 		app.use("/api/accounts", require("./routers/accounts"));
+		app.use("/api/phoneNumbers", require("./routers/phoneNumbers"));
+		app.use("/api/emails", require("./routers/emails"));
+		app.use("/api/addresses", require("./routers/addresses"));
 
 		app.use((err, req, res, next) => {
 			if (!err.output) {

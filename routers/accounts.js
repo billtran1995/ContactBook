@@ -3,6 +3,7 @@ const boom = require("@hapi/boom");
 const router = express.Router();
 
 const { Account, Contact, PhoneNumber, Email, Address } = require("../db");
+const validateAccount = require("../validators/accountValidator");
 
 // Get accounts
 router.get("/", async (req, res, next) => {
@@ -20,7 +21,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:accountId", async (req, res, next) => {
 	const { accountId } = req.params;
 	try {
-		const result = await Account.findOne({ where: { id: contactId } });
+		const result = await Account.findOne({ where: { id: accountId } });
 
 		res.json(result);
 	} catch (err) {
@@ -32,6 +33,12 @@ router.get("/:accountId", async (req, res, next) => {
 // Create an account
 router.post("/create", async (req, res, next) => {
 	try {
+		const { error } = validateAccount(req.body);
+
+		if (error) {
+			return next(boom.badRequest(error.details[0].message));
+		}
+
 		const { userName, pictureUrl } = req.body;
 
 		const [user] = await Account.findOrCreate({
@@ -72,6 +79,12 @@ router.delete("/delete/:accountId", async (req, res, next) => {
 	const { accountId } = req.params;
 
 	try {
+		const result = await Account.findOne({ where: { accountId } });
+
+		if (!result) {
+			return next(boom.internal("Invalid account", { statusCode: 400 }));
+		}
+
 		const contacts = await Contact.findAll({ where: { accountId } });
 
 		await Promise.all(
