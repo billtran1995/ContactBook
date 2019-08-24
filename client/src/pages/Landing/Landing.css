@@ -1,0 +1,12 @@
+.welcome-message {
+  font-size: 3em;
+  margin: 20% 25%;
+}
+
+@media (max-width: 480px) {
+  .welcome-message {
+    font-size: 2em;
+    margin: 20% 23%;
+    text-align: center;
+  }
+}

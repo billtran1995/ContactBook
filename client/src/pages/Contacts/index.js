@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { FadeLoader } from "react-spinners";
 
-const sampleData = [
-  { id: 1, firstName: "John", lastName: "Doe" },
-  { id: 2, firstName: "Ada", lastName: "Wong" },
-  { id: 3, firstName: "Leon", lastName: "Lee" },
-  { id: 4, firstName: "Ana", lastName: "Swagger" },
-  { id: 5, firstName: "Ben", lastName: "Ten" }
-];
+import { useAuth0 } from "../../auth0-wrapper";
+import { runActionGet } from "../../actions";
+import { GET_CONTACT_LIST } from "../../constants";
+import ContactList from "./ContactList";
+import "./Contacts.css";
 
-const ContactsPage = () => {
-  return <div>Contacts</div>;
+const ContactsPage = ({ contactList, getContactList }) => {
+  const { user } = useAuth0();
+
+  useEffect(() => user && getContactList(user), [getContactList, user]);
+
+  if (!contactList.length)
+    return (
+      <div className="contact-list-loader">
+        <FadeLoader color="#26A65B" />
+      </div>
+    );
+
+  return <ContactList contactList={contactList} />;
 };
 
-export default ContactsPage;
+const mapStateToProps = state => ({
+  contactList: state.contactList
+});
+
+const mapDispatchToProps = dispatch => ({
+  getContactList: user =>
+    dispatch(
+      runActionGet(`/api/contacts/getContacts/${user.id}`, GET_CONTACT_LIST)
+    )
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactsPage);

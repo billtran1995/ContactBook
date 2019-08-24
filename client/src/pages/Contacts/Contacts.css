@@ -1,0 +1,14 @@
+.contact-item:hover {
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+.contact-list-loader {
+  margin: 20% 50%;
+}
+
+@media (max-width: 480px) {
+  .contact-list-loader {
+    margin: 44% 44%;
+  }
+}
