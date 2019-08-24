@@ -6,12 +6,12 @@ const ContactGroup = ({ contactGroup, group }) => {
   return (
     <>
       <br />
-      <ListGroup key={group}>
+      <ListGroup>
         <ListGroup.Item>
           <h5>{group}</h5>
           <ListGroup variant="flush">
             {contactGroup[group].map(contact => (
-              <Contact contact={contact} />
+              <Contact key={`contact - ${contact.id}`} contact={contact} />
             ))}
           </ListGroup>
         </ListGroup.Item>

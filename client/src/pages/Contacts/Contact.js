@@ -3,7 +3,7 @@ import { ListGroup } from "react-bootstrap";
 
 const Contact = ({ contact }) => {
   return (
-    <ListGroup.Item key={contact.id}>
+    <ListGroup.Item className="contact-item">
       {contact.firstName + " " + contact.lastName}
     </ListGroup.Item>
   );

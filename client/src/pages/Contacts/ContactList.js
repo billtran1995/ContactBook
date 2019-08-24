@@ -9,7 +9,11 @@ const ContactList = ({ contactList }) => {
         let group = Object.keys(contactGroup)[0];
 
         return (
-          <ContactGroup key={group} group={group} contactGroup={contactGroup} />
+          <ContactGroup
+            key={`contactGroup - ${group}`}
+            group={group}
+            contactGroup={contactGroup}
+          />
         );
       })}
     </div>

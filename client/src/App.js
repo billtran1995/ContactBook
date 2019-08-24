@@ -6,6 +6,7 @@ import NavBar from "./Navbar";
 import PrivateRoute from "./PrivateRoute";
 import LandingPage from "./pages/Landing";
 import ContactsPage from "./pages/Contacts";
+import CreateContactPage from "./pages/CreateContactForm";
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
         <Container>
           <Switch>
             <PrivateRoute path="/contacts" component={ContactsPage} />
+            <PrivateRoute
+              path="/create-contact"
+              component={CreateContactPage}
+            />
             <Route path="/" component={LandingPage} />
           </Switch>
         </Container>

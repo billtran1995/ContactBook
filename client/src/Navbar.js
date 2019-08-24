@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "./auth0-wrapper";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -7,19 +7,23 @@ import "./Navbar.css";
 
 const NavbarWrapper = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState();
 
-  function handleLoginClick() {
+  useEffect(() => {
+    setActivePage(window.location.pathname.substr(1));
+  }, []);
+
+  const handleLoginClick = () => {
     loginWithRedirect({});
-  }
+  };
 
-  function handleLogoutClick() {
+  const handleLogoutClick = () => {
     logout({});
-  }
+  };
 
-  function handleActivePageChange(e) {
+  const handleActivePageChange = e => {
     setActivePage(e.target.name);
-  }
+  };
 
   return (
     <div className="nav-bar">
@@ -29,8 +33,10 @@ const NavbarWrapper = () => {
           <>
             <Nav.Item>
               <Link
-                className={`nav-link ${activePage === "home" ? "active" : ""}`}
-                name="home"
+                className={`nav-link ${
+                  activePage === "contacts" ? "active" : ""
+                }`}
+                name="contacts"
                 to="/contacts"
                 onClick={handleActivePageChange}
               >

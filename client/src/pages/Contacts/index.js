@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Spinner } from "react-bootstrap";
+import { FadeLoader } from "react-spinners";
 
 import { useAuth0 } from "../../auth0-wrapper";
 import { runActionGet } from "../../actions";
 import { GET_CONTACT_LIST } from "../../constants";
 import ContactList from "./ContactList";
+import "./Contacts.css";
 
 const ContactsPage = ({ contactList, getContactList }) => {
   const { user } = useAuth0();
@@ -14,8 +15,8 @@ const ContactsPage = ({ contactList, getContactList }) => {
 
   if (!contactList.length)
     return (
-      <div style={{ margin: "30% 50%" }}>
-        <Spinner animation="border" variant="info" />
+      <div className="contact-list-loader">
+        <FadeLoader color="#26A65B" />
       </div>
     );
 
